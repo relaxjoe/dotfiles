@@ -4,6 +4,7 @@ local packer_bootstrap
 vim.opt.clipboard = 'unnamed,unnamedplus'
 vim.opt.colorcolumn = '+1'
 vim.opt.completeopt = 'menuone'
+vim.opt.cursorline = true
 vim.opt.fillchars = 'eob: ,vert:│'
 vim.opt.ignorecase = true
 vim.opt.list = true
@@ -240,12 +241,12 @@ return require('packer').startup(function(use)
         diagnostics = {
           enable = true,
           icons = {
-            error = vim.fn.sign_getdefined('DiagnosticSignError').icon,
-            hint = vim.fn.sign_getdefined('DiagnosticSignHint').icon,
-            info = vim.fn.sign_getdefined('DiagnosticSignInfo').icon,
-            warn = vim.fn.sign_getdefined('DiagnosticSignWarn').icon,
+            error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
+            hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text,
+            info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text,
+            warning = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
           },
-          show_on_dirs = false,
+          show_on_dirs = true,
         },
         disable_netrw = true,
         ignore_buffer_on_setup = true,
@@ -553,7 +554,16 @@ return require('packer').startup(function(use)
             },
           },
           lualine_c = {
-            'diagnostics',
+            {
+              'diagnostics',
+              sources = { 'nvim_diagnostic' },
+              symbols = {
+                error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
+                hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text,
+                info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text,
+                warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
+              },
+            },
           },
           lualine_x = {
             { 'b:gitsigns_head', icon = '' },
@@ -614,10 +624,9 @@ return require('packer').startup(function(use)
         },
         extensions = {
           'alpha',
-          'help',
-          'manpage',
-          'packer',
           'nvim-tree',
+          'packer',
+          'pager',
         }
       }
     end,
