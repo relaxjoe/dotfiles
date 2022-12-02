@@ -1,6 +1,3 @@
-local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-local packer_bootstrap
-
 vim.opt.clipboard = 'unnamed,unnamedplus'
 vim.opt.colorcolumn = '+1'
 vim.opt.completeopt = 'menuone'
@@ -45,11 +42,18 @@ vim.fn.sign_define({
   { name = 'DiagnosticSignWarn', numhl = 'DiagnosticSignWarn', texthl = 'DiagnosticSignWarn', text = ' ' },
 })
 
-if not io.open(packer_install_path) then
-  vim.api.nvim_create_autocmd('User', { command = 'quitall', once = true, pattern = 'PackerComplete' })
-  packer_bootstrap = os.execute('git clone --depth 1 https://github.com/wbthomason/packer.nvim ' ..
-    packer_install_path .. ' &>/dev/null')
+local ensure_packer = function()
+  local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+  if io.open(packer_install_path) then
+    return false
+  else
+    os.execute('git clone --depth 1 https://github.com/wbthomason/packer.nvim ' .. packer_install_path)
+    vim.cmd([[packadd packer.nvim]])
+    return true
+  end
 end
+
+local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
   use {
