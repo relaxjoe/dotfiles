@@ -24,6 +24,8 @@ vim.opt.undofile = true
 vim.opt.updatetime = 300
 vim.opt.wrap = false
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
 
 vim.cmd([[
@@ -235,8 +237,6 @@ return require('packer').startup(function(use)
     },
     ft = 'alpha',
     config = function()
-      local tree_cb = require('nvim-tree.config').nvim_tree_callback
-
       require('nvim-tree').setup {
         diagnostics = {
           enable = true,
@@ -249,6 +249,7 @@ return require('packer').startup(function(use)
           show_on_dirs = true,
         },
         disable_netrw = true,
+        filters = { custom = { "^.git$" } },
         ignore_buffer_on_setup = true,
         open_on_setup = true,
         trash = {
@@ -256,26 +257,27 @@ return require('packer').startup(function(use)
           require_confirm = true,
         },
         view = {
+          hide_root_folder = true,
           mappings = {
             custom_only = true,
             list = {
-              { key = '<cr>', cb = tree_cb('edit') },
-              { key = '<C-v>', cb = tree_cb('vsplit') },
-              { key = '<C-x>', cb = tree_cb('split') },
-              { key = 'h', cb = tree_cb('toggle_dotfiles') },
-              { key = 'i', cb = tree_cb('toggle_git_ignored') },
-              { key = 'R', cb = tree_cb('refresh') },
-              { key = 'a', cb = tree_cb('create') },
-              { key = 'd', cb = tree_cb('trash') },
-              { key = 'q', cb = tree_cb('close') },
-              { key = 'r', cb = tree_cb('rename') },
-              { key = 'o', cb = tree_cb('system_open') },
-              { key = 'x', cb = tree_cb('cut') },
-              { key = 'c', cb = tree_cb('copy') },
-              { key = 'p', cb = tree_cb('paste') },
-              { key = 'y', cb = tree_cb('copy_path') },
-              { key = 'Y', cb = tree_cb('copy_absolute_path') },
-              { key = 'K', cb = tree_cb('toggle_help') },
+              { key = '<cr>', action = 'edit' },
+              { key = '<C-v>', action = 'vsplit' },
+              { key = '<C-x>', action = 'split' },
+              { key = 'h', action = 'toggle_dotfiles' },
+              { key = 'i', action = 'toggle_git_ignored' },
+              { key = 'R', action = 'refresh' },
+              { key = 'a', action = 'create' },
+              { key = 'd', action = 'trash' },
+              { key = 'q', action = 'close' },
+              { key = 'r', action = 'rename' },
+              { key = 'o', action = 'system_open' },
+              { key = 'x', action = 'cut' },
+              { key = 'c', action = 'copy' },
+              { key = 'p', action = 'paste' },
+              { key = 'y', action = 'copy_path' },
+              { key = 'Y', action = 'copy_absolute_path' },
+              { key = 'K', action = 'toggle_help' },
             },
           },
         },
