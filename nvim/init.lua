@@ -344,11 +344,6 @@ return require('packer').startup(function(use)
     config = function()
       require('indent_blankline').setup {
         char = '│',
-        filetype_exclude = {
-          'alpha',
-          'help',
-          'packer',
-        },
         show_current_context = true,
         show_first_indent_level = false,
         use_treesitter = true,
