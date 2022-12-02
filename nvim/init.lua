@@ -669,6 +669,8 @@ return require('packer').startup(function(use)
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
     },
     config = function()
+      local builtin = require('telescope.builtin')
+
       require('telescope').setup {
         defaults = {
           file_ignore_patterns = {
@@ -707,33 +709,25 @@ return require('packer').startup(function(use)
       require('which-key').register({
         ['<leader>'] = {
           b = {
-            c = { function() require('telescope.builtin').grep_string() end, 'Find <cword>', },
-            g = { function() require('telescope.builtin').current_buffer_fuzzy_find() end, 'Fuzzy Find', },
-            l = { function() require('telescope.builtin').git_bcommits() end, 'Git Log', },
-            y = { function() require('telescope.builtin').lsp_document_symbols() end, 'Find Symbols', },
+            c = { function() builtin.grep_string() end, 'Find <cword>', },
+            g = { function() builtin.current_buffer_fuzzy_find() end, 'Fuzzy Find', },
+            l = { function() builtin.git_bcommits() end, 'Git Log', },
+            y = { function() builtin.lsp_document_symbols() end, 'Find Symbols', },
           },
           f = {
-            f = {
-              function()
-                if not pcall(require('telescope.builtin').git_files) then
-                  require('telescope.builtin').find_files()
-                end
-              end,
-              'Find Files',
-            },
-            r = { function() require('telescope.builtin').oldfiles() end, 'Recent Files', },
+            f = { function() if not pcall(builtin.git_files) then builtin.find_files() end end, 'Find Files', },
+            r = { function() builtin.oldfiles({ cwd_only = true }) end, 'Recent Files', },
           },
           g = {
-            c = { function() require('telescope.builtin').live_grep { default_text = vim.fn.expand '<cword>', } end,
-              'Find <cword>', },
-            g = { function() require('telescope.builtin').live_grep() end, 'Fuzzy Find', },
-            h = { function() require('telescope.builtin').git_stash() end, 'Git Stashes', },
-            l = { function() require('telescope.builtin').git_commits() end, 'Git Log', },
-            m = { function() require('telescope.builtin').git_branches() end, 'Git Branches', },
-            s = { function() require('telescope.builtin').git_status() end, 'Git Status', },
-            y = { function() require('telescope.builtin').lsp_workspace_symbols() end, 'Find Symbols', },
+            c = { function() builtin.live_grep { default_text = vim.fn.expand('<cword>'), } end, 'Find <cword>', },
+            g = { function() builtin.live_grep() end, 'Fuzzy Find', },
+            h = { function() builtin.git_stash() end, 'Git Stashes', },
+            l = { function() builtin.git_commits() end, 'Git Log', },
+            m = { function() builtin.git_branches() end, 'Git Branches', },
+            s = { function() builtin.git_status() end, 'Git Status', },
+            y = { function() builtin.lsp_workspace_symbols() end, 'Find Symbols', },
           },
-          r = { function() require('telescope.builtin').resume() end, 'Resume Search (Telescope)', },
+          r = { function() builtin.resume() end, 'Resume Search (Telescope)', },
         },
       })
     end,
