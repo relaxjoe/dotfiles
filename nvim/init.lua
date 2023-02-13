@@ -313,9 +313,9 @@ return require('packer').startup(function(use)
         'gopls',
         'html',
         'jsonls',
+        'lua_ls',
         'marksman',
         'pyright',
-        'sumneko_lua',
         'taplo',
         'terraformls',
         'tflint',
@@ -338,7 +338,7 @@ return require('packer').startup(function(use)
               gofumpt = true,
             },
           }
-        elseif server == 'sumneko_lua' then
+        elseif server == 'lua_ls' then
           config.settings = {
             Lua = {
               diagnostics = {
@@ -360,7 +360,7 @@ return require('packer').startup(function(use)
             },
           }
         elseif server == 'terraformls' then
-          config.filetypes = { 'hcl', 'terraform' }
+          config.filetypes = { 'hcl', 'terraform', 'terraform-vars' }
         end
 
         require('lspconfig')[server].setup(config)
