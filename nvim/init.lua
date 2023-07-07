@@ -71,8 +71,6 @@ LSP_ON_ATTACH = function(client, bufnr)
       callback = function() vim.lsp.buf.format() end,
     })
   end
-
-  if client.server_capabilities.documentSymbolProvider then require('nvim-navic').attach(client, bufnr) end
 end
 
 return require('packer').startup(function(use)
@@ -623,13 +621,6 @@ return require('packer').startup(function(use)
         renderer = {
           root_folder_label = false,
         },
-        view = {
-          mappings = {
-            list = {
-              { key = '<Tab>', action = '' },
-            },
-          },
-        },
         on_attach = function(bufnr)
           local api = require('nvim-tree.api')
 
@@ -689,13 +680,18 @@ return require('packer').startup(function(use)
         callback = function()
           local filetype = vim.bo.filetype
           local ignore_filetypes = {
-            'alpha',
             'man',
             'DiffviewFiles',
           }
 
           for _, ft in ipairs(ignore_filetypes) do
-            if filetype ~= ft then require('nvim-tree.api').tree.toggle({ focus = false }) end
+            if filetype == ft then
+              break
+            else
+              if not require('nvim-tree.api').tree.is_visible() then
+                require('nvim-tree.api').tree.toggle({ focus = false, find_file = true })
+              end
+            end
           end
         end,
       })
@@ -741,20 +737,6 @@ return require('packer').startup(function(use)
     'sindrets/diffview.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function() vim.keymap.set('n', '<leader>d', '<cmd>DiffviewOpen<cr>', { desc = 'Diffview Open' }) end,
-  })
-
-  use({
-    'utilyre/barbecue.nvim',
-    tag = '*',
-    requires = {
-      'SmiteshP/nvim-navic',
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = function()
-      require('barbecue').setup({
-        attach_navic = false,
-      })
-    end,
   })
 
   use({

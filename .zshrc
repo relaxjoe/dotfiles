@@ -3,11 +3,13 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 
 export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/brewfile.rb"
+export HOMEBREW_BUNDLE_NO_LOCK="1"
 
 test $(arch) = "arm64" && DEFAULT_HOMEBREW_PREFIX="/opt/homebrew"
 . <("${DEFAULT_HOMEBREW_PREFIX:-"/usr/local"}/bin/brew" shellenv)
 test -e "${HOMEBREW_BUNDLE_FILE}.lock.json" || brew bundle install --clean
 
+export DOCKER_HOST="unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')"
 export EDITOR="nvim"
 export MANPAGER="nvim +Man! +'set ch=0'"
 export NPM_CONFIG_PREFIX="${HOME}/.local"
@@ -47,6 +49,8 @@ function _bs {
   ln -fs "${XDG_CONFIG_HOME}/.zshrc" "${HOME}/.zshrc"
 
   uatt
+
+  podman machine list -q || (podman machine init --rootful && podman machine start)
 }
 
 function kubent {
@@ -65,12 +69,7 @@ if [[ ${USER} != "hermitmaster" ]]; then
 
   function callenv {
     docker run -it \
-      -v ${HOME}/.kube:/.kube \
       -v ${HOME}/work/delivery/cloud15-infra/namespace.yaml:/namespace.yaml \
       repocache.nonprod.ppops.net/dev-docker-local/cloud15callenv:2.4
-  }
-
-  function namespace-creator {
-    callenv namespace-creator --namespaces-file /namespace.yaml --sync "${@}"
   }
 fi
