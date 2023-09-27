@@ -71,6 +71,8 @@ LSP_ON_ATTACH = function(client, bufnr)
       callback = function() vim.lsp.buf.format() end,
     })
   end
+
+  if client.server_capabilities.documentSymbolProvider then require('nvim-navic').attach(client, bufnr) end
 end
 
 return require('packer').startup(function(use)
@@ -84,6 +86,11 @@ return require('packer').startup(function(use)
   use({
     'ethanholz/nvim-lastplace',
     config = function() require('nvim-lastplace').setup({}) end,
+  })
+
+  use({
+    'folke/tokyonight.nvim',
+    config = function() vim.cmd('colorscheme tokyonight-storm') end,
   })
 
   use({
@@ -152,11 +159,6 @@ return require('packer').startup(function(use)
 
       vim.keymap.set('n', '<leader>bh', '<cmd>Alpha<cr>', { desc = 'Dashboard' })
     end,
-  })
-
-  use({
-    'hermitmaster/monokai.nvim',
-    config = function() vim.cmd('colorscheme monokai') end,
   })
 
   use({
@@ -311,11 +313,10 @@ return require('packer').startup(function(use)
   use({
     'lukas-reineke/indent-blankline.nvim',
     config = function()
-      require('indent_blankline').setup({
-        char = '│',
-        show_current_context = true,
-        show_first_indent_level = false,
-        use_treesitter = true,
+      require('ibl').setup({
+        scope = {
+          highlight = { 'CursorLineNr' },
+        },
       })
     end,
   })
@@ -340,11 +341,9 @@ return require('packer').startup(function(use)
         'marksman',
         'pyright',
         'solargraph',
-        'taplo',
         'terraformls',
         'tflint',
         'tsserver',
-        'vimls',
         -- 'yamlls',
       }
 
@@ -737,6 +736,20 @@ return require('packer').startup(function(use)
     'sindrets/diffview.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function() vim.keymap.set('n', '<leader>d', '<cmd>DiffviewOpen<cr>', { desc = 'Diffview Open' }) end,
+  })
+
+  use({
+    'utilyre/barbecue.nvim',
+    tag = '*',
+    requires = {
+      'SmiteshP/nvim-navic',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require('barbecue').setup({
+        attach_navic = false,
+      })
+    end,
   })
 
   use({

@@ -9,14 +9,16 @@ test $(arch) = "arm64" && DEFAULT_HOMEBREW_PREFIX="/opt/homebrew"
 . <("${DEFAULT_HOMEBREW_PREFIX:-"/usr/local"}/bin/brew" shellenv)
 test -e "${HOMEBREW_BUNDLE_FILE}.lock.json" || brew bundle install --clean
 
+export BAT_THEME="ansi"
 export DOCKER_HOST="unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')"
 export EDITOR="nvim"
 export MANPAGER="nvim +Man! +'set ch=0'"
 export NPM_CONFIG_PREFIX="${HOME}/.local"
-export PATH="/opt/homebrew/opt/ruby/bin:${HOME}/.local/bin:${PATH}"
+export PATH="${HOMEBREW_PREFIX}/opt/node@18/bin:${HOMEBREW_PREFIX}/opt/ruby/bin:${HOME}/.local/bin:${PATH}"
 
 alias bb="brew bundle install --clean"
 alias btm="btm --basic"
+alias cat="bat"
 alias kctx="kubectx"
 alias kns="kubens"
 alias ls="exa --git --group-directories-first --time-style long-iso"
