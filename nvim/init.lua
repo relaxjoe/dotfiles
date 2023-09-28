@@ -34,17 +34,15 @@ vim.fn.sign_define({
 })
 
 local ensure_packer = function()
-  local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if io.open(packer_install_path) then
-    return false
-  else
-    os.execute('git clone --depth 1 https://github.com/wbthomason/packer.nvim ' .. packer_install_path)
-    vim.cmd([[packadd packer.nvim]])
-    return true
+  local pckr_path = vim.fn.stdpath('data') .. '/pckr/pckr.nvim'
+  if not io.open(pckr_path) then
+    os.execute('git clone --depth 1 --filter=blob:none https://github.com/lewis6991/pckr.nvim ' .. pckr_path)
   end
+
+  vim.opt.rtp:prepend(pckr_path)
 end
 
-local packer_bootstrap = ensure_packer()
+ensure_packer()
 
 LSP_ON_ATTACH = function(client, bufnr)
   vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { desc = 'Go to Definition' })
@@ -73,25 +71,22 @@ LSP_ON_ATTACH = function(client, bufnr)
   end
 end
 
-return require('packer').startup(function(use)
-  use({
+return require('pckr').add({
+  {
     'sitiom/nvim-numbertoggle',
     'terrastruct/d2-vim',
     'towolf/vim-helm',
     'wbthomason/packer.nvim',
-  })
-
-  use({
+  },
+  {
     'ethanholz/nvim-lastplace',
     config = function() require('nvim-lastplace').setup({}) end,
-  })
-
-  use({
+  },
+  {
     'folke/tokyonight.nvim',
     config = function() vim.cmd('colorscheme tokyonight-storm') end,
-  })
-
-  use({
+  },
+  {
     'folke/which-key.nvim',
     config = function()
       local wk = require('which-key')
@@ -141,9 +136,8 @@ return require('packer').startup(function(use)
         },
       })
     end,
-  })
-
-  use({
+  },
+  {
     'goolord/alpha-nvim',
     requires = 'nvim-tree/nvim-web-devicons',
     config = function()
@@ -151,9 +145,8 @@ return require('packer').startup(function(use)
 
       vim.keymap.set('n', '<leader>bh', '<cmd>Alpha<cr>', { desc = 'Dashboard' })
     end,
-  })
-
-  use({
+  },
+  {
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-buffer',
@@ -223,9 +216,8 @@ return require('packer').startup(function(use)
 
       require('luasnip.loaders.from_vscode').lazy_load()
     end,
-  })
-
-  use({
+  },
+  {
     'jose-elias-alvarez/null-ls.nvim',
     requires = {
       'jayp0521/mason-null-ls.nvim',
@@ -261,9 +253,8 @@ return require('packer').startup(function(use)
         automatic_installation = true,
       })
     end,
-  })
-
-  use({
+  },
+  {
     'lewis6991/gitsigns.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function()
@@ -300,9 +291,8 @@ return require('packer').startup(function(use)
         end,
       })
     end,
-  })
-
-  use({
+  },
+  {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
       require('ibl').setup({
@@ -311,9 +301,8 @@ return require('packer').startup(function(use)
         },
       })
     end,
-  })
-
-  use({
+  },
+  {
     'neovim/nvim-lspconfig',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
@@ -405,18 +394,16 @@ return require('packer').startup(function(use)
         require('lspconfig')[server].setup(config)
       end
     end,
-  })
-
-  use({
+  },
+  {
     'numToStr/Comment.nvim',
     config = function()
       require('Comment').setup({
         ignore = '^$',
       })
     end,
-  })
-
-  use({
+  },
+  {
     'numToStr/Navigator.nvim',
     config = function()
       require('Navigator').setup()
@@ -427,9 +414,8 @@ return require('packer').startup(function(use)
       vim.keymap.set('n', '<C-j>', '<cmd>NavigatorDown<cr>')
       vim.keymap.set('n', '<C-\\>', '<cmd>NavigatorPrevious<cr>')
     end,
-  })
-
-  use({
+  },
+  {
     'nvim-lualine/lualine.nvim',
     requires = 'nvim-tree/nvim-web-devicons',
     config = function()
@@ -538,9 +524,8 @@ return require('packer').startup(function(use)
         },
       })
     end,
-  })
-
-  use({
+  },
+  {
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -590,9 +575,8 @@ return require('packer').startup(function(use)
       vim.keymap.set('n', '<leader>gy', function() tb.lsp_workspace_symbols() end, { desc = 'Find Symbols' })
       vim.keymap.set('n', '<leader>r', function() tb.resume() end, { desc = 'Resume Search (Telescope)' })
     end,
-  })
-
-  use({
+  },
+  {
     'nvim-tree/nvim-tree.lua',
     requires = 'nvim-tree/nvim-web-devicons',
     config = function()
@@ -687,9 +671,8 @@ return require('packer').startup(function(use)
         end,
       })
     end,
-  })
-
-  use({
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function()
@@ -699,9 +682,8 @@ return require('packer').startup(function(use)
         indent = { enable = true },
       })
     end,
-  })
-
-  use({
+  },
+  {
     'rcarriga/nvim-dap-ui',
     requires = {
       'jay-babu/mason-nvim-dap.nvim',
@@ -722,16 +704,13 @@ return require('packer').startup(function(use)
         },
       })
     end,
-  })
-
-  use({
+  },
+  {
     'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup({
         check_ts = true,
       })
     end,
-  })
-
-  if packer_bootstrap then require('packer').sync() end
-end)
+  },
+})
