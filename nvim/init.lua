@@ -33,16 +33,12 @@ vim.fn.sign_define({
   { name = 'DiagnosticSignWarn', numhl = 'DiagnosticSignWarn', texthl = 'DiagnosticSignWarn', text = ' ' },
 })
 
-local ensure_packer = function()
-  local pckr_path = vim.fn.stdpath('data') .. '/pckr/pckr.nvim'
-  if not io.open(pckr_path) then
-    os.execute('git clone --depth 1 --filter=blob:none https://github.com/lewis6991/pckr.nvim ' .. pckr_path)
-  end
-
-  vim.opt.rtp:prepend(pckr_path)
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not io.open(lazypath) then
+  os.execute('git clone --filter=blob:none https://github.com/folke/lazy.nvim.git --branch=stable ' .. lazypath)
 end
 
-ensure_packer()
+vim.opt.rtp:prepend(lazypath)
 
 LSP_ON_ATTACH = function(client, bufnr)
   vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { desc = 'Go to Definition' })
@@ -71,18 +67,17 @@ LSP_ON_ATTACH = function(client, bufnr)
   end
 end
 
-return require('pckr').add({
+return require('lazy').setup({
   'sitiom/nvim-numbertoggle',
   'terrastruct/d2-vim',
   'towolf/vim-helm',
-  'wbthomason/packer.nvim',
   {
     'ethanholz/nvim-lastplace',
     config = function() require('nvim-lastplace').setup({}) end,
   },
   {
     'folke/tokyonight.nvim',
-    config = function() vim.cmd('colorscheme tokyonight-storm') end,
+    config = function() vim.cmd('colorscheme tokyonight-moon') end,
   },
   {
     'folke/which-key.nvim',
@@ -137,7 +132,7 @@ return require('pckr').add({
   },
   {
     'goolord/alpha-nvim',
-    requires = 'nvim-tree/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
       require('alpha').setup(require('alpha.themes.hermit'))
 
@@ -146,7 +141,7 @@ return require('pckr').add({
   },
   {
     'hrsh7th/nvim-cmp',
-    requires = {
+    dependencies = {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
@@ -217,7 +212,7 @@ return require('pckr').add({
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
-    requires = {
+    dependencies = {
       'jayp0521/mason-null-ls.nvim',
       'nvim-lua/plenary.nvim',
       'williamboman/mason.nvim',
@@ -252,7 +247,7 @@ return require('pckr').add({
   },
   {
     'lewis6991/gitsigns.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     config = function()
       require('gitsigns').setup({
         on_attach = function(bufnr)
@@ -300,7 +295,7 @@ return require('pckr').add({
   },
   {
     'neovim/nvim-lspconfig',
-    requires = {
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
@@ -412,7 +407,7 @@ return require('pckr').add({
   },
   {
     'nvim-lualine/lualine.nvim',
-    requires = 'nvim-tree/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
       require('lualine').setup({
         options = {
@@ -522,9 +517,9 @@ return require('pckr').add({
   },
   {
     'nvim-telescope/telescope.nvim',
-    requires = {
+    dependencies = {
       'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
     config = function()
       local tb = require('telescope.builtin')
@@ -573,7 +568,7 @@ return require('pckr').add({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    requires = 'nvim-tree/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
       require('nvim-tree').setup({
         diagnostics = {
@@ -669,7 +664,7 @@ return require('pckr').add({
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    build = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = 'all',
@@ -680,7 +675,7 @@ return require('pckr').add({
   },
   {
     'rcarriga/nvim-dap-ui',
-    requires = {
+    dependencies = {
       'jay-babu/mason-nvim-dap.nvim',
       'mfussenegger/nvim-dap',
       'williamboman/mason.nvim',
