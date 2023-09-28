@@ -38,7 +38,7 @@ SAVEHIST=$HISTSIZE
 . "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 . "${HOMEBREW_PREFIX}/opt/fzf/shell/completion.zsh"
 . "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
-. "${HOMEBREW_PREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme"
+. "${HOMEBREW_PREFIX}/opt/powerlevel10k/share/powerlevel10k/powerlevel10k.zsh-theme"
 . "${XDG_CONFIG_HOME}/.p10k.zsh"
 . <(direnv hook zsh)
 
