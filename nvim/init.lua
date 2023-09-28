@@ -72,12 +72,10 @@ LSP_ON_ATTACH = function(client, bufnr)
 end
 
 return require('pckr').add({
-  {
-    'sitiom/nvim-numbertoggle',
-    'terrastruct/d2-vim',
-    'towolf/vim-helm',
-    'wbthomason/packer.nvim',
-  },
+  'sitiom/nvim-numbertoggle',
+  'terrastruct/d2-vim',
+  'towolf/vim-helm',
+  'wbthomason/packer.nvim',
   {
     'ethanholz/nvim-lastplace',
     config = function() require('nvim-lastplace').setup({}) end,
@@ -235,14 +233,12 @@ return require('pckr').add({
           nls.builtins.diagnostics.checkmake,
           nls.builtins.diagnostics.hadolint,
           nls.builtins.diagnostics.opacheck,
-          nls.builtins.diagnostics.rubocop,
           nls.builtins.diagnostics.shellcheck,
           nls.builtins.diagnostics.terraform_validate,
           nls.builtins.diagnostics.tfsec,
           nls.builtins.diagnostics.yamllint,
           nls.builtins.formatting.prettier,
           nls.builtins.formatting.rego,
-          nls.builtins.formatting.rubocop,
           nls.builtins.formatting.shfmt.with({ extra_args = { '-bn', '-ci', '-i', '2', '-s' } }),
           nls.builtins.formatting.stylua,
         },
@@ -320,7 +316,6 @@ return require('pckr').add({
         'jsonls',
         'lua_ls',
         'marksman',
-        'pyright',
         'solargraph',
         'terraformls',
         'tflint',
