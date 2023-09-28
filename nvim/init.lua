@@ -71,8 +71,6 @@ LSP_ON_ATTACH = function(client, bufnr)
       callback = function() vim.lsp.buf.format() end,
     })
   end
-
-  if client.server_capabilities.documentSymbolProvider then require('nvim-navic').attach(client, bufnr) end
 end
 
 return require('packer').startup(function(use)
@@ -89,40 +87,8 @@ return require('packer').startup(function(use)
   })
 
   use({
-    'folke/noice.nvim',
-    requires = {
-      'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify',
-    },
-    config = function()
-      require('noice').setup({
-        lsp = {
-          override = {
-            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-            ['vim.lsp.util.stylize_markdown'] = true,
-            ['cmp.entry.get_documentation'] = true,
-          },
-        },
-        presets = {
-          bottom_search = true,
-          command_palette = true,
-          long_message_to_split = true,
-          inc_rename = false,
-          lsp_doc_border = false,
-        },
-      })
-    end,
-  })
-
-  use({
     'folke/tokyonight.nvim',
     config = function() vim.cmd('colorscheme tokyonight-storm') end,
-  })
-
-  use({
-    'folke/trouble.nvim',
-    requires = 'nvim-tree/nvim-web-devicons',
-    config = function() require('trouble').setup({}) end,
   })
 
   use({
@@ -754,26 +720,6 @@ return require('packer').startup(function(use)
           'js',
           'python',
         },
-      })
-    end,
-  })
-
-  use({
-    'sindrets/diffview.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-    config = function() vim.keymap.set('n', '<leader>d', '<cmd>DiffviewOpen<cr>', { desc = 'Diffview Open' }) end,
-  })
-
-  use({
-    'utilyre/barbecue.nvim',
-    tag = '*',
-    requires = {
-      'SmiteshP/nvim-navic',
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = function()
-      require('barbecue').setup({
-        attach_navic = false,
       })
     end,
   })
