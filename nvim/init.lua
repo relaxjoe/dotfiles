@@ -226,14 +226,14 @@ return require('lazy').setup({
           nls.builtins.code_actions.gomodifytags,
           nls.builtins.code_actions.shellcheck,
           nls.builtins.diagnostics.checkmake,
-          nls.builtins.diagnostics.hadolint,
           nls.builtins.diagnostics.opacheck,
+          nls.builtins.diagnostics.rubocop,
           nls.builtins.diagnostics.shellcheck,
           nls.builtins.diagnostics.terraform_validate,
           nls.builtins.diagnostics.tfsec,
-          nls.builtins.diagnostics.yamllint,
           nls.builtins.formatting.prettier,
           nls.builtins.formatting.rego,
+          nls.builtins.formatting.rubocop,
           nls.builtins.formatting.shfmt.with({ extra_args = { '-bn', '-ci', '-i', '2', '-s' } }),
           nls.builtins.formatting.stylua,
         },
@@ -315,7 +315,6 @@ return require('lazy').setup({
         'terraformls',
         'tflint',
         'tsserver',
-        -- 'yamlls',
       }
 
       require('mason').setup()
@@ -364,20 +363,6 @@ return require('lazy').setup({
             'hcl',
             'terraform',
             'terraform-vars',
-          }
-        elseif server == 'yamlls' then
-          config.settings = {
-            redhat = {
-              telemetry = {
-                enabled = false,
-              },
-            },
-            yaml = {
-              keyOrdering = false,
-              schemaStore = {
-                enable = true,
-              },
-            },
           }
         end
 
