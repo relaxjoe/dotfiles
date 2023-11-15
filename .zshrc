@@ -58,12 +58,4 @@ function _set_window_title { print -Pn "\e]0;%~  ${1[0,25]:-zsh}\a" }
 function precmd { _set_window_title "$@"}
 function preexec { _set_window_title "$@"}
 
-if [[ ${USER} != "hermitmaster" ]]; then
-  . "${HOME}/.pkops/env"
-
-  function callenv {
-    docker run -it \
-      -v ${HOME}/work/delivery/cloud15-infra/namespace.yaml:/namespace.yaml \
-      repocache.nonprod.ppops.net/dev-docker-local/cloud15callenv:2.4
-  }
-fi
+test ${USER} != "hermitmaster" && . "${HOME}/.pkops/env"
