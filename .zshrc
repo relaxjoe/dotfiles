@@ -3,14 +3,12 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 
 export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/brewfile.rb"
-export HOMEBREW_BUNDLE_NO_LOCK="1"
 
 test $(arch) = "arm64" && DEFAULT_HOMEBREW_PREFIX="/opt/homebrew"
 . <("${DEFAULT_HOMEBREW_PREFIX:-"/usr/local"}/bin/brew" shellenv)
 test -e "${HOMEBREW_BUNDLE_FILE}.lock.json" || brew bundle install --clean
 
 export BAT_THEME="ansi"
-export DOCKER_HOST="unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')"
 export EDITOR="nvim"
 export MANPAGER="nvim +Man! +'set ch=0'"
 export NPM_CONFIG_PREFIX="${HOME}/.local"
@@ -51,7 +49,7 @@ function _bs {
 
   uatt
 
-  podman machine list -q || (podman machine init --rootful && podman machine start)
+  podman machine inspect podman-machine-default || podman machine init --rootful --now --cpus=2 --memory=8192 podman-machine-default
 }
 
 function _set_window_title { print -Pn "\e]0;%~  ${1[0,25]:-zsh}\a" }
