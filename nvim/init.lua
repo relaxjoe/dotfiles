@@ -491,10 +491,12 @@ return require('lazy').setup({
         },
         extensions = {
           'alpha',
+          'help',
+          'lazy',
+          'man',
+          'mason',
           'nvim-dap-ui',
           'nvim-tree',
-          'packer',
-          'pager',
           'trouble',
         },
       })
@@ -506,7 +508,7 @@ return require('lazy').setup({
       'nvim-lua/plenary.nvim',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+        build = 'make',
       },
     },
     version = '*',
@@ -699,6 +701,10 @@ return require('lazy').setup({
     opts = {
       attach_navic = false,
     },
+  },
+  {
+    'willothy/wezterm.nvim',
+    config = true,
   },
   {
     'windwp/nvim-autopairs',
