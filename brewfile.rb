@@ -45,6 +45,7 @@ brew 'ripgrep'
 brew 'ruby'
 brew 'six'
 brew 'staticcheck'
+brew 'tealdeer'
 brew 'terraform'
 brew 'terraform-docs'
 brew 'terraformer'
@@ -59,25 +60,12 @@ brew 'zsh-autosuggestions'
 brew 'zsh-syntax-highlighting'
 
 cask 'font-jetbrains-mono-nerd-font'
-cask 'goland'
 cask 'mac-mouse-fix', args: { 'no-quarantine': true }
+cask 'microsoft-auto-update'
+cask 'microsoft-teams'
+cask 'openemu', args: { 'no-quarantine': true }
 cask 'podman-desktop'
 cask 'rectangle'
+cask 'steam'
 cask 'wezterm'
-
-mas 'AdGuard for Safari', id: 1_440_147_259
-mas 'Vimari', id: 1_480_933_944
-
-if ENV['USER'] == 'hermitmaster'
-  cask 'openemu', args: { 'no-quarantine': true }
-  cask 'steam'
-else
-  tap 'del/cloud15', 'ssh://git@hq-stash.corp.proofpoint.com:7999/del/homebrew-cloud15.git'
-  tap 'del/cloud15-internal', 'ssh://git@hq-stash.corp.proofpoint.com:7999/del/homebrew-cloud15-internal.git'
-
-  mas 'OneLogin for Safari', id: 1_475_824_389
-  mas 'Xcode', id: 497_799_835
-
-  brew 'del/cloud15/c15-onelogin-client'
-  brew 'del/cloud15-internal/namespace-creator'
-end
+cask 'visual-studio-code'
