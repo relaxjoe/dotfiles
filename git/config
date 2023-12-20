@@ -73,8 +73,8 @@
   autostash = true
 
 [user]
-  email = hermitmaster@icloud.com
-  name = Dennis Rausch
+  email = joeyndiebel@gmail.com
+  name = Joseph Diebel
 
 [includeIf "gitdir:~/work/"]
   path = ~/work/.gitconfig
